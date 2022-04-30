@@ -20,6 +20,15 @@ def get_json_obj_count(url, verbose):
         response = requests.get(url)
         response.raise_for_status()
 
+        length = len(response.json())
+        object_type = "JSON object" if type(
+            response.json()).__name__ == "dict" else "JSON array"
+        if verbose:
+            unit = "objects" if object_type == "JSON array" else "name/value pairs"
+            print(
+                f"The API returned a {object_type} with {length} {unit}")
+        return (length, object_type)
+
     except requests.exceptions.HTTPError:
         print("An HTTP error ocurred. Please check the url.")
         sys.exit()
@@ -27,16 +36,6 @@ def get_json_obj_count(url, verbose):
     except requests.exceptions.ConnectionError:
         print("Couldn't reach the server. Please check your internet connection or try a different url.")
         sys.exit()
-    else:
-        if response.ok:
-            length = len(response.json())
-            object_type = "JSON object" if type(
-                response.json()).__name__ == "dict" else "JSON array"
-            if verbose:
-                unit = "objects" if object_type == "JSON array" else "name/value pairs"
-                print(
-                    f"The API returned a {object_type} with {length} {unit}")
-            return (length, object_type)
 
 
 def get_args():
