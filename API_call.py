@@ -20,11 +20,11 @@ def get_json_obj_count(url, verbose):
         response = requests.get(url)
         response.raise_for_status()
 
-    except requests.exceptions.HTTPError as err:
+    except requests.exceptions.HTTPError:
         print("An HTTP error ocurred. Please check the url.")
         sys.exit()
 
-    except requests.exceptions.ConnectionError as err:
+    except requests.exceptions.ConnectionError:
         print("Couldn't reach the server. Please check your internet connection or try a different url.")
         sys.exit()
     else:
